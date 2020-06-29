@@ -1,0 +1,8 @@
+version: '3.7'
+services:
+    utils:
+        build: 
+            context: '.'
+            args:
+                - BUILD_TEST=ON
+        privileged: true
