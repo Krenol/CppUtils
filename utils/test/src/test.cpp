@@ -8,6 +8,8 @@ int main() {
     auto m = utils::Maths::mean(test);
     auto d = utils::Maths::deviation(test);
     std::cout << "mean: " << m << "\tdeviation: " << d << std::endl; 
+    
+    std::cout << "TEST ENV VAR = " << utils::Environment::getVar("TEST", "OK") << std::endl << "waiting 10000ms...\n"; 
     utils::Waiter::SleepMillis(10000);
     std::cout << "waited 10000ms" << std::endl; 
     return 0;
