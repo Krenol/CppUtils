@@ -5,7 +5,7 @@ cmake_minimum_required (VERSION 3.4)
 set(CMAKE_CXX_STANDARD 14)  # enable C++14 standard
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-project (Utils VERSION 1.0 LANGUAGES CXX)
+project (utils VERSION 1.0 LANGUAGES CXX)
 
 
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build/lib)

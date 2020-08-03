@@ -1,11 +1,13 @@
-project (utils VERSION 0.0.42)
- 
+project (utils)
+cmake_minimum_required (VERSION 3.4)
+
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(UTILS_PROJECT_SRCS
 ${PROJECT_SOURCE_DIR}/waiter.cpp
 ${PROJECT_SOURCE_DIR}/maths.cpp
+${PROJECT_SOURCE_DIR}/env.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${UTILS_PROJECT_SRCS})

@@ -1,7 +1,5 @@
 # CMakeList.txt : CMake project for RPiComponents, include source and define
 # project specific logic here.
-#
-cmake_minimum_required (VERSION 3.4)
 
 project (utils_test_project)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
