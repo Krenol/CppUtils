@@ -5,5 +5,6 @@
 #include "../../src/waiter.hpp"
 #include "../../src/maths.hpp"
 #include "../../src/environment.hpp"
+#include "../../src/kalmann.hpp"
 
 #endif

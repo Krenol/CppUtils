@@ -1,7 +1,4 @@
 #include <vector>
-#include <numeric>
-#include <algorithm>
-#include <cmath>
 
 #ifndef UTILS_MATHS_H
 #define UTILS_MATHS_H

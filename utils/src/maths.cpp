@@ -1,4 +1,8 @@
 #include "maths.hpp"
+#include <numeric>
+#include <algorithm>
+#include <cmath>
+
 namespace utils
 {
     double Maths::mean(const std::vector<double>& vec)
