@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project (Utils VERSION 1.0 LANGUAGES CXX)
 
+if (NOT "$ENV{BUILD_TEST}" STREQUAL "")
+    set(BUILD_TEST "$ENV{BUILD_TEST}" CACHE INTERNAL "Copied from environment variable")
+endif()
 
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build/lib)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
