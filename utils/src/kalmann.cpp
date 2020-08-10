@@ -3,6 +3,7 @@ namespace utils
 {
     void Kalmann::init() 
     {
+        if(dt_ <= 0) throw std::invalid_argument("dt must be greater than 0!");
         auto size = A_.rows();
         I_(size, size);
         I_.setIdentity();
@@ -21,8 +22,9 @@ namespace utils
                     const Eigen::MatrixXd& P_0, 
                     const Eigen::MatrixXd& Q, 
                     const Eigen::MatrixXd& R,
-                    const Eigen::VectorXd& x0) : 
-                    A_{A}, H_{H}, P_{P_0}, Q_{Q}, R_{R}, x_{x0}
+                    const Eigen::VectorXd& x0,
+                    double dt) : 
+                    A_{A}, H_{H}, P_{P_0}, Q_{Q}, R_{R}, x_{x0}, dt_{dt}
     {
         init();
     }
@@ -31,8 +33,9 @@ namespace utils
                     const Eigen::MatrixXd& H, 
                     const Eigen::MatrixXd& P_0, 
                     const Eigen::MatrixXd& Q, 
-                    const Eigen::MatrixXd& R) : 
-                    A_{A},H_{H}, P_{P_0}, Q_{Q}, R_{R}, x_{A.rows()}
+                    const Eigen::MatrixXd& R, 
+                    double dt) : 
+                    A_{A},H_{H}, P_{P_0}, Q_{Q}, R_{R}, x_{A.rows()}, dt_{dt}
     {
         x_.setZero();
         init();
@@ -41,13 +44,17 @@ namespace utils
 
     const Eigen::VectorXd& Kalmann::predict(const Eigen::VectorXd& z) 
     {
+        std::lock_guard<std::mutex> guard(mtx_);
         x_ = A_ * x_;
         updateStep(z);
+        return x_;
     } 
     
     const Eigen::VectorXd& Kalmann::predict(const Eigen::MatrixXd& B, const Eigen::VectorXd& u) 
     {
+        std::lock_guard<std::mutex> guard(mtx_);
         x_ = A_ * x_ + B * u;
         updateStep(x_);
+        return x_;
     }
 }
