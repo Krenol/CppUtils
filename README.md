@@ -1,7 +1,8 @@
 # CppUtils
-This library needs LAPACK for using Blaze for the Kalmann Filter.
+Utils for C++, such as Kalmann filter, basic math for std::vector or getting environment variables.
 
-Install it with tbe command
+## Dependencies
+This project requires Eigen3. Install it with the command
 ```
-sudo apt-get install liblapack-dev
+sudo apt-get install libeigen3-dev
 ```
