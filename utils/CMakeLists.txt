@@ -2,8 +2,8 @@ project (utils)
 cmake_minimum_required (VERSION 3.4)
 
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
+set(BLAZE_LIBRARY_PATH ${PROJECT_SOURCE_DIR}/external/blaze)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(EIGEN_DIR ${PROJECT_SOURCE_DIR}/external/eigen)
 
 set(UTILS_PROJECT_SRCS
 ${PROJECT_SOURCE_DIR}/waiter.cpp
@@ -21,12 +21,12 @@ target_include_directories(${PROJECT_NAME}
         $<BUILD_INTERFACE:${PROJECT_INCLUDE_DIR}>
     PRIVATE
         ${PROJECT_SOURCE_DIR}
-        ${EIGEN_DIR}
 )
 
-
-find_package (Eigen3 REQUIRED NO_MODULE)
-target_link_libraries (${PROJECT_NAME} PUBLIC Eigen3::Eigen)
+if(NOT TARGET blaze)
+    add_subdirectory(${BLAZE_LIBRARY_PATH})
+endif()
+target_link_libraries(${PROJECT_NAME} blaze)
 
 if(${BUILD_TEST})
     add_subdirectory(test)

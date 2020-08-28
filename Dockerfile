@@ -9,6 +9,8 @@ ENV BUILD_TEST "$BUILD_TEST"
 
 WORKDIR /data
 
+RUN apt-get install -y liblapack-dev
+
 # copy files
 COPY CMakeLists.txt ./
 COPY ./${PROJECT_DIR} ./${PROJECT_DIR}

@@ -1,3 +1,1 @@
-[submodule "utils/external/eigen"]
-	path = utils/external/eigen
-	url = git@gitlab.com:libeigen/eigen.git
+
