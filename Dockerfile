@@ -9,7 +9,7 @@ ENV BUILD_TEST "$BUILD_TEST"
 
 WORKDIR /data
 
-RUN apt-get install -y liblapack-dev
+RUN apt-get install -y libeigen3-dev
 
 # copy files
 COPY CMakeLists.txt ./

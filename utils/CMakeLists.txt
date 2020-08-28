@@ -23,10 +23,8 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_SOURCE_DIR}
 )
 
-if(NOT TARGET blaze)
-    add_subdirectory(${BLAZE_LIBRARY_PATH})
-endif()
-target_link_libraries(${PROJECT_NAME} blaze)
+find_package (Eigen3 REQUIRED)
+target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
 
 if(${BUILD_TEST})
     add_subdirectory(test)
