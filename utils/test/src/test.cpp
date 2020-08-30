@@ -1,7 +1,7 @@
 #include "utils/utils.hpp"
 #include <iostream>
 
-class K : public utils::Kalmann {
+class K : public utils::Kalman {
 protected:
     void updateA() {
         auto dt = getDt();
@@ -21,7 +21,7 @@ protected:
 public:
     K(const Eigen::MatrixXd& C,
         const Eigen::MatrixXd& P_0,
-        const Eigen::MatrixXd& R) : Kalmann(C, P_0, R)
+        const Eigen::MatrixXd& R) : Kalman(C, P_0, R)
     {
 
     }

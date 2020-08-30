@@ -1,15 +1,15 @@
-#include "kalmann.hpp"
+#include "kalman.hpp"
 #include <iostream>
 namespace utils
 {
-    void Kalmann::setDt() 
+    void Kalman::setDt() 
     {
         auto now = std::chrono::steady_clock::now();
         dt_ = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_call_).count();
         last_call_ = now;
     }
 
-    void Kalmann::init() 
+    void Kalman::init() 
     {
         
         //init empty A, B and Q
@@ -25,7 +25,7 @@ namespace utils
         last_call_ = std::chrono::steady_clock::now();
     }
     
-    void Kalmann::updateStep(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
+    void Kalman::updateStep(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
     {
         std::lock_guard<std::mutex> guard(mtx_);
         setDt();
@@ -39,7 +39,7 @@ namespace utils
         P_ = (I_ - K_ * C_) * P_;
     }
 
-    Kalmann::Kalmann(const Eigen::MatrixXd& C, 
+    Kalman::Kalman(const Eigen::MatrixXd& C, 
                     const Eigen::MatrixXd& P_0, 
                     const Eigen::MatrixXd& R,
                     const Eigen::VectorXd& x0) : 
@@ -49,7 +49,7 @@ namespace utils
         init();
     }
     
-    Kalmann::Kalmann(
+    Kalman::Kalman(
                     const Eigen::MatrixXd& C, 
                     const Eigen::MatrixXd& P_0, 
                     const Eigen::MatrixXd& R) :
@@ -60,7 +60,7 @@ namespace utils
     }
 
 
-    const Eigen::VectorXd& Kalmann::predict(const Eigen::VectorXd& z) 
+    const Eigen::VectorXd& Kalman::predict(const Eigen::VectorXd& z) 
     {
         Eigen::VectorXd u(B_.cols());
         u.setZero();
@@ -68,13 +68,13 @@ namespace utils
         return x_;
     } 
     
-    const Eigen::VectorXd& Kalmann::predict(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
+    const Eigen::VectorXd& Kalman::predict(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
     {
         updateStep(z, u);
         return x_;
     }
     
-    double Kalmann::getDt() 
+    double Kalman::getDt() 
     {
         return dt_;
     }

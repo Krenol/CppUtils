@@ -2,12 +2,12 @@
 #include <mutex>
 #include <chrono> 
 
-#ifndef UTILS_KALMANN_H
-#define UTILS_KALMANN_H
+#ifndef UTILS_KALMAN_H
+#define UTILS_KALMAN_H
 
 namespace utils {
 
-    class Kalmann {
+    class Kalman {
     private:
         Eigen::VectorXd x_;
         std::mutex mtx_;
@@ -36,17 +36,17 @@ namespace utils {
         
 
         /**
-         * Method to update the A matrix (state transition model) of the Kalmann Filter
+         * Method to update the A matrix (state transition model) of the Kalman Filter
          */
         virtual void updateA() = 0;
 
         /**
-         * Method to update the B matrix (control-input) of the Kalmann Filter
+         * Method to update the B matrix (control-input) of the Kalman Filter
          */
         virtual void updateB() = 0;
 
         /**
-         * Method to update the Q matrix (process noise covariance) of the Kalmann Filter
+         * Method to update the Q matrix (process noise covariance) of the Kalman Filter
          */
         virtual void updateQ() = 0;
 
@@ -59,7 +59,7 @@ namespace utils {
          * @param R Measurement noise covariance
          * @param x0 Inital state guess
          */
-        Kalmann(
+        Kalman(
             const Eigen::MatrixXd& C,
             const Eigen::MatrixXd& P_0,
             const Eigen::MatrixXd& R,
@@ -73,7 +73,7 @@ namespace utils {
          * @param P_0 Initial error covariance estiamtion
          * @param R Measurement noise covariance
          */
-        Kalmann(
+        Kalman(
             const Eigen::MatrixXd& C,
             const Eigen::MatrixXd& P_0,
             const Eigen::MatrixXd& R

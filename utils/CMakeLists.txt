@@ -9,7 +9,7 @@ set(UTILS_PROJECT_SRCS
 ${PROJECT_SOURCE_DIR}/waiter.cpp
 ${PROJECT_SOURCE_DIR}/maths.cpp
 ${PROJECT_SOURCE_DIR}/environment.cpp
-${PROJECT_SOURCE_DIR}/kalmann.cpp
+${PROJECT_SOURCE_DIR}/kalman.cpp
 )
 
 

@@ -1,5 +1,5 @@
 # CppUtils
-Utils for C++, such as Kalmann filter, basic math for std::vector or getting environment variables.
+Utils for C++, such as Kalman filter, basic math for std::vector or getting environment variables.
 
 ## Dependencies
 This project requires Eigen3. Install it with the command
