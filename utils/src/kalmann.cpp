@@ -1,4 +1,5 @@
 #include "kalmann.hpp"
+#include <iostream>
 namespace utils
 {
     void Kalmann::setDt() 
@@ -10,15 +11,15 @@ namespace utils
 
     void Kalmann::init() 
     {
-        // init Eigenmatrix
-        auto size = A_.rows();
-        I_(size, size);
-        I_.setIdentity();
-
+        
         //init empty A, B and Q
-        A_(P_.size());
-        B_(P_.rows(), 1);
-        Q_(P_.size());
+        A_ = Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
+        B_ = Eigen::MatrixXd::Zero(P_.rows(), 1);
+        Q_ = Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
+
+        // init Eigenmatrix
+        I_= Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
+        I_.setIdentity();
 
         // init last call for dt calc
         last_call_ = std::chrono::steady_clock::now();
@@ -34,7 +35,7 @@ namespace utils
         x_ = A_ * x_ + B_ * u;
         P_ = A_ * P_ * A_.transpose() + Q_;
         K_ = P_ * C_.transpose() * (C_ * P_ * C_.transpose() + R_).inverse();
-        x_ += K_ * (z - C_ * x_);
+        x_ = x_ + K_ * (z - C_ * x_);
         P_ = (I_ - K_ * C_) * P_;
     }
 
@@ -44,23 +45,24 @@ namespace utils
                     const Eigen::VectorXd& x0) : 
                     C_{C}, P_{P_0}, R_{R}, x_{x0}
     {
+        
         init();
     }
     
     Kalmann::Kalmann(
                     const Eigen::MatrixXd& C, 
                     const Eigen::MatrixXd& P_0, 
-                    const Eigen::MatrixXd& R) : 
+                    const Eigen::MatrixXd& R) :
                     C_{C}, P_{P_0}, R_{R}
     {
-        x_ << 0, 0;
         init();
+        x_ = Eigen::VectorXd::Zero(A_.rows());
     }
 
 
     const Eigen::VectorXd& Kalmann::predict(const Eigen::VectorXd& z) 
     {
-        Eigen::VectorXd u(z.size());
+        Eigen::VectorXd u(B_.cols());
         u.setZero();
         updateStep(z, u);
         return x_;
