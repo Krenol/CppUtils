@@ -27,7 +27,7 @@ public:
     }
 };
 
-int main() {
+void old(){
     Eigen::MatrixXd C(1,2), P_0(2,2), R(1,1);
     C << 1, 0;
     P_0.setZero();
@@ -48,5 +48,17 @@ int main() {
     std::cout << "TEST ENV VAR = " << utils::Environment::getVar("TEST", "OK") << std::endl << "waiting 10000ms...\n";
     utils::Waiter::SleepMillis(10000);
     std::cout << "waited 10000ms" << std::endl;
+}
+
+void test(){
+    utils::Waiter::SleepSecs(1);
+    std::cout << "waited 1s" << std::endl;
+}
+
+int main() {
+    utils::StoppableThread th(SCHED_RR, 90);
+    std::function<void(void)> f = test;
+    th.run(f);
+    std::cin.get();
     return 0;
 }

@@ -6,5 +6,6 @@
 #include "../../src/maths.hpp"
 #include "../../src/environment.hpp"
 #include "../../src/kalman.hpp"
+#include "../../src/stoppable_thread.hpp"
 
 #endif

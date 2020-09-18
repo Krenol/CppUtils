@@ -1,5 +1,4 @@
 project (utils)
-cmake_minimum_required (VERSION 3.4)
 
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(BLAZE_LIBRARY_PATH ${PROJECT_SOURCE_DIR}/external/blaze)
@@ -10,6 +9,7 @@ ${PROJECT_SOURCE_DIR}/waiter.cpp
 ${PROJECT_SOURCE_DIR}/maths.cpp
 ${PROJECT_SOURCE_DIR}/environment.cpp
 ${PROJECT_SOURCE_DIR}/kalman.cpp
+${PROJECT_SOURCE_DIR}/stoppable_thread.cpp
 )
 
 
@@ -26,6 +26,6 @@ target_include_directories(${PROJECT_NAME}
 find_package (Eigen3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
 
-if(${BUILD_TEST})
+
     add_subdirectory(test)
-endif()
+
