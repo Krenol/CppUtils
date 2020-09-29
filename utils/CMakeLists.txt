@@ -27,5 +27,6 @@ find_package (Eigen3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
 
 
+if(${BUILD_TEST})
     add_subdirectory(test)
-
+endif()
