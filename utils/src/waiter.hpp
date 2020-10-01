@@ -13,37 +13,49 @@ namespace utils {
 		* Method that lets a new thread sleep for a certain amount of nanoseconds
 		* @param nanos: the amount of nanoseconds for the thread sleep
 		*/
-		static void SleepNanos(const std::chrono::nanoseconds nanos);
+		static void SleepNanos(const std::chrono::nanoseconds& nanos);
 
 		/**
 		* Method that lets a new thread sleep for a certain amount of nanoseconds
 		* @param nanos: the amount of nanoseconds for the thread sleep
 		*/
-		static void SleepNanos(const long nanos);
+		static void SleepNanos(long nanos);
+
+		/**
+		* Method that lets a new thread sleep for a certain amount of microseconds
+		* @param micros: the amount of microseconds for the thread sleep
+		*/
+		static void SleepMicros(const std::chrono::milliseconds& micros);
+
+		/**
+		* Method that lets a new thread sleep for a certain amount of microseconds
+		* @param micros: the amount of microseconds for the thread sleep
+		*/
+		static void SleepMicros(long micros);
 
 		/**
 		* Method that lets a new thread sleep for a certain amount of milliseconds
 		* @param millis: the amount of milliseconds for the thread sleep
 		*/
-		static void SleepMillis(const std::chrono::milliseconds millis);
+		static void SleepMillis(const std::chrono::milliseconds& millis);
 
 		/**
 		* Method that lets a new thread sleep for a certain amount of milliseconds
 		* @param millis: the amount of milliseconds for the thread sleep
 		*/
-		static void SleepMillis(const long millis);
+		static void SleepMillis(long millis);
 
 		/**
 		* Method that lets a new thread sleep for a certain amount of seconds
 		* @param secs: the amount of seconds for the thread sleep
 		*/
-		static void SleepSecs(const std::chrono::seconds secs);
+		static void SleepSecs(const std::chrono::seconds& secs);
 
 		/**
 		* Method that lets a new thread sleep for a certain amount of seconds
 		* @param secs: the amount of seconds for the thread sleep
 		*/
-		static void SleepSecs(const long secs);
+		static void SleepSecs(long secs);
 
 	private:
 		/**
