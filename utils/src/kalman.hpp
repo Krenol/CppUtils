@@ -1,6 +1,7 @@
 #include <Eigen/Dense>
 #include <mutex>
 #include <chrono> 
+#include <atomic>
 
 #ifndef UTILS_KALMAN_H
 #define UTILS_KALMAN_H
@@ -13,7 +14,7 @@ namespace utils {
         std::mutex mtx_;
         std::chrono::steady_clock::time_point last_call_;
         Eigen::MatrixXd C_, P_, R_, K_, I_;
-        double dt_{ 0 };
+        std::atomic<double> dt_{ 0 };
 
         /*
         Method to set dt_ for the integral / derivate term

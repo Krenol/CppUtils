@@ -2,7 +2,6 @@
 #define UTILS_H
 #pragma once
 
-#include "../../src/waiter.hpp"
 #include "../../src/maths.hpp"
 #include "../../src/environment.hpp"
 #include "../../src/kalman.hpp"

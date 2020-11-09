@@ -1,5 +1,6 @@
 #include "utils/utils.hpp"
 #include <iostream>
+#include <unistd.h>
 
 class K : public utils::Kalman {
 protected:
@@ -45,13 +46,10 @@ void old(){
     x << 4;
     y = kal.predict(x);
     std::cout << "y=" << y << std::endl;
-    std::cout << "TEST ENV VAR = " << utils::Environment::getVar("TEST", "OK") << std::endl << "waiting 10000ms...\n";
-    utils::Waiter::SleepMillis(10000);
-    std::cout << "waited 10000ms" << std::endl;
 }
 
 void test(){
-    utils::Waiter::SleepSecs(1);
+    usleep(1000000);
     std::cout << "waited 1s" << std::endl;
 }
 

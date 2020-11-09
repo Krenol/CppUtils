@@ -5,7 +5,6 @@ set(BLAZE_LIBRARY_PATH ${PROJECT_SOURCE_DIR}/external/blaze)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 set(UTILS_PROJECT_SRCS
-${PROJECT_SOURCE_DIR}/waiter.cpp
 ${PROJECT_SOURCE_DIR}/maths.cpp
 ${PROJECT_SOURCE_DIR}/environment.cpp
 ${PROJECT_SOURCE_DIR}/kalman.cpp
@@ -25,7 +24,6 @@ target_include_directories(${PROJECT_NAME}
 
 find_package (Eigen3 REQUIRED)
 target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
-
 
 if(${BUILD_TEST})
     add_subdirectory(test)
