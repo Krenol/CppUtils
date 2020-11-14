@@ -23,7 +23,9 @@ target_include_directories(${PROJECT_NAME}
 )
 
 find_package (Eigen3 REQUIRED)
+find_library(atomic REQUIRED)
 target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
+target_link_libraries(${PROJECT_NAME} atomic)
 
 if(${BUILD_TEST})
     add_subdirectory(test)
