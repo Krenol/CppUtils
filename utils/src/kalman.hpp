@@ -15,6 +15,7 @@ namespace utils {
         std::chrono::steady_clock::time_point last_call_;
         Eigen::MatrixXd C_, P_, R_, K_, I_;
         std::atomic<double> dt_{ 0 };
+        std::atomic_bool first_call_ {false};
 
         /*
         Method to set dt_ for the integral / derivate term

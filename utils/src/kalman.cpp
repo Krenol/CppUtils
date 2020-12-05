@@ -5,7 +5,11 @@ namespace utils
     void Kalman::setDt() 
     {
         auto now = std::chrono::steady_clock::now();
-        dt_ = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_call_).count();
+        if(first_call_){
+            dt_ = 0;
+        } else {
+            dt_ = std::chrono::duration_cast<std::chrono::microseconds>(now - last_call_).count();
+        }
         last_call_ = now;
     }
 
@@ -20,9 +24,6 @@ namespace utils
         // init Eigenmatrix
         I_= Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
         I_.setIdentity();
-
-        // init last call for dt calc
-        last_call_ = std::chrono::steady_clock::now();
     }
     
     void Kalman::updateStep(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
