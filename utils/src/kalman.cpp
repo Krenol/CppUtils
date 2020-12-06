@@ -7,6 +7,7 @@ namespace utils
         auto now = std::chrono::steady_clock::now();
         if(first_call_){
             dt_ = 0;
+            first_call_ = false;
         } else {
             dt_ = std::chrono::duration_cast<std::chrono::microseconds>(now - last_call_).count();
         }
