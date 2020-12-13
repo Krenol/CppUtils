@@ -9,6 +9,7 @@ ${PROJECT_SOURCE_DIR}/maths.cpp
 ${PROJECT_SOURCE_DIR}/environment.cpp
 ${PROJECT_SOURCE_DIR}/kalman.cpp
 ${PROJECT_SOURCE_DIR}/stoppable_thread.cpp
+${PROJECT_SOURCE_DIR}/exponential_filter.cpp
 )
 
 

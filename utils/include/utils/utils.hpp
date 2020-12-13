@@ -6,5 +6,6 @@
 #include "../../src/environment.hpp"
 #include "../../src/kalman.hpp"
 #include "../../src/stoppable_thread.hpp"
+#include "../../src/exponential_filter.hpp"
 
 #endif
