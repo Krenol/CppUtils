@@ -4,7 +4,7 @@ namespace utils
 {
     void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
     {
-        int m = z.size(), l = u.size(), n = P.rows();
+        int m = z.size(), l = u.size(), n = P_0.rows();
         std::cout << "\n\n\n--------------------------" << std::endl;
         std::cout << "m = z.size() = " << m << std::endl;
         std::cout << "l = u.size() = " << l << std::endl;
