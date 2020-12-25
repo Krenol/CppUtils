@@ -42,20 +42,47 @@ namespace utils
         I_.setIdentity();
     }
     
-    void Kalman::updateStep(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
+    void Kalman::preupdate() 
     {
-        std::lock_guard<std::mutex> guard(mtx_);
-        // we msut know u for init
-        if(first_call_) B_ = Eigen::MatrixXd::Zero(P_.rows(), u.size());
         setDt();
         updateA();
         updateB();
+        updateC();
         updateQ();
-        x_ = A_ * x_ + B_ * u;
+        updateR();
+    }
+    
+    void Kalman::updateStep(const Eigen::VectorXd& z) 
+    {
         P_ = A_ * P_ * A_.transpose() + Q_;
         K_ = P_ * C_.transpose() * (C_ * P_ * C_.transpose() + R_).inverse();
         x_ = x_ + K_ * (z - C_ * x_);
         P_ = (I_ - K_ * C_) * P_;
+    }
+    
+    void Kalman::updateA() 
+    {
+        
+    }
+    
+    void Kalman::updateB() 
+    {
+        
+    }
+    
+    void Kalman::updateC() 
+    {
+        
+    }
+    
+    void Kalman::updateQ() 
+    {
+
+    }
+    
+    void Kalman::updateR() 
+    {
+        
     }
 
     Kalman::Kalman(const Eigen::MatrixXd& C, 
@@ -81,15 +108,21 @@ namespace utils
 
     const Eigen::VectorXd& Kalman::predict(const Eigen::VectorXd& z) 
     {
-        Eigen::VectorXd u(B_.cols());
-        u.setZero();
-        updateStep(z, u);
+        std::lock_guard<std::mutex> guard(mtx_);
+        preupdate();
+        x_ = A_ * x_;
+        updateStep(z);
         return x_;
     } 
     
     const Eigen::VectorXd& Kalman::predict(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
     {
-        updateStep(z, u);
+        std::lock_guard<std::mutex> guard(mtx_);
+        // we must know u for init of B
+        if(first_call_) B_ = Eigen::MatrixXd::Zero(P_.rows(), u.size());
+        preupdate();
+        x_ = A_ * x_ + B_ * u;
+        updateStep(z);
         return x_;
     }
     

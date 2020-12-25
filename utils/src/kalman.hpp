@@ -13,7 +13,7 @@ namespace utils {
         Eigen::VectorXd x_;
         std::mutex mtx_;
         std::chrono::steady_clock::time_point last_call_;
-        Eigen::MatrixXd C_, P_, R_, K_, I_;
+        Eigen::MatrixXd P_, K_, I_;
         std::atomic<double> dt_{ 0 };
         std::atomic_bool first_call_ {true};
 
@@ -26,31 +26,47 @@ namespace utils {
          * Initialize the component
          */
         void init();
+        
+        /**
+         * Update all matrices and dt
+         */
+        void preupdate();
+
 
         /**
          * Update the matrixes and calculate the values based on new x
          * @param z The measured / calculated system state
          */
-        void updateStep(const Eigen::VectorXd& z, const Eigen::VectorXd& u);
+        void updateStep(const Eigen::VectorXd& z);
 
     protected:
-        Eigen::MatrixXd A_, Q_, B_;
+        Eigen::MatrixXd A_, Q_, B_, R_, C_;
         
 
         /**
          * Method to update the A matrix (state transition model) of the Kalman Filter
          */
-        virtual void updateA() = 0;
+        virtual void updateA();
 
         /**
          * Method to update the B matrix (control-input) of the Kalman Filter
          */
-        virtual void updateB() = 0;
+        virtual void updateB();
+
+        /**
+         * Method to update the C matrix (uutput matrix) of the Kalman Filter
+         */
+        virtual void updateC();
 
         /**
          * Method to update the Q matrix (process noise covariance) of the Kalman Filter
          */
-        virtual void updateQ() = 0;
+        virtual void updateQ();
+
+        /**
+         * Method to update the R matrix (measurement noise covariance) of the Kalman Filter
+         */
+        virtual void updateR();
 
     public:
         /**
