@@ -2,11 +2,27 @@
 #include <iostream>
 namespace utils
 {
+    void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
+    {
+        int m = z.size(), l = u.size(), n = P.rows();
+        std::cout << "\n\n\n--------------------------" << std::endl;
+        std::cout << "m = z.size() = " << m << std::endl;
+        std::cout << "l = u.size() = " << l << std::endl;
+        std::cout << "n = P.rows() = " << n << std::endl;
+        std::cout << "A(nxn) = " << n << "x" << n << std::endl; 
+        std::cout << "B(nxl) = " << n << "x" << l << std::endl; 
+        std::cout << "Q(nxn) = " << n << "x" << n << std::endl; 
+        std::cout << "R(mxm) = " << m << "x" << m << std::endl; 
+        std::cout << "K(nxm) = " << n << "x" << m << std::endl; 
+        std::cout << "x(n) = " << n << std::endl; 
+        std::cout << "--------------------------\n\n\n" << std::endl;
+    }
+
     void Kalman::setDt() 
     {
         auto now = std::chrono::steady_clock::now();
         if(first_call_){
-            dt_ = 0;
+            dt_ = 1;
             first_call_ = false;
         } else {
             dt_ = std::chrono::duration_cast<std::chrono::microseconds>(now - last_call_).count();
@@ -17,9 +33,8 @@ namespace utils
     void Kalman::init() 
     {
         
-        //init empty A, B and Q
+        //init empty A and Q
         A_ = Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
-        B_ = Eigen::MatrixXd::Zero(P_.rows(), 1);
         Q_ = Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
 
         // init Eigenmatrix
@@ -30,6 +45,8 @@ namespace utils
     void Kalman::updateStep(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
     {
         std::lock_guard<std::mutex> guard(mtx_);
+        // we msut know u for init
+        if(first_call_) B_ = Eigen::MatrixXd::Zero(P_.rows(), u.size());
         setDt();
         updateA();
         updateB();

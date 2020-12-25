@@ -7,7 +7,7 @@
 #define UTILS_KALMAN_H
 
 namespace utils {
-
+    static void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z, const Eigen::VectorXd& u);
     class Kalman {
     private:
         Eigen::VectorXd x_;
