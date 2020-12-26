@@ -2,12 +2,41 @@
 #include <mutex>
 #include <chrono> 
 #include <atomic>
+#include <iostream>
 
 #ifndef UTILS_KALMAN_H
 #define UTILS_KALMAN_H
 
 namespace utils {
-    static void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z, const Eigen::VectorXd& u);
+    static void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z, const Eigen::VectorXd& u) {
+        int m = z.size(), l = u.size(), n = P_0.rows();
+        std::cout << "\n\n\n--------------------------" << std::endl;
+        std::cout << "m = z.size() = " << m << std::endl;
+        std::cout << "l = u.size() = " << l << std::endl;
+        std::cout << "n = P.rows() = " << n << std::endl;
+        std::cout << "A(nxn) = " << n << "x" << n << std::endl; 
+        std::cout << "B(nxl) = " << n << "x" << l << std::endl; 
+        std::cout << "C(mxn) = " << m << "x" << n << std::endl; 
+        std::cout << "Q(nxn) = " << n << "x" << n << std::endl; 
+        std::cout << "R(mxm) = " << m << "x" << m << std::endl; 
+        std::cout << "K(nxm) = " << n << "x" << m << std::endl; 
+        std::cout << "x(n) = " << n << std::endl; 
+        std::cout << "--------------------------\n\n\n" << std::endl;
+    }
+
+    static void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z) {
+        int m = z.size(), n = P_0.rows();
+        std::cout << "\n\n\n--------------------------" << std::endl;
+        std::cout << "m = z.size() = " << m << std::endl;
+        std::cout << "n = P.rows() = " << n << std::endl;
+        std::cout << "A(nxn) = " << n << "x" << n << std::endl; 
+        std::cout << "C(mxn) = " << m << "x" << n << std::endl; 
+        std::cout << "Q(nxn) = " << n << "x" << n << std::endl; 
+        std::cout << "R(mxm) = " << m << "x" << m << std::endl; 
+        std::cout << "K(nxm) = " << n << "x" << m << std::endl; 
+        std::cout << "x(n) = " << n << std::endl; 
+        std::cout << "--------------------------\n\n\n" << std::endl;
+    }
     class Kalman {
     private:
         Eigen::VectorXd x_;
@@ -99,19 +128,19 @@ namespace utils {
 
         /**
          * Predict the state of the system based on observed state
+         * @param out Vector to store prediction
          * @param z The observed state
-         * @returns Predicted system state
          *
          */
-        const Eigen::VectorXd& predict(const Eigen::VectorXd& z);
+        void predict(Eigen::VectorXd& out, const Eigen::VectorXd& z);
 
         /**
          * Predict the state of the system based on control input
+         * @param out Vector to store prediction
          * @param z The observed state
          * @param u control input
-         * @returns Predicted system state
          */
-        const Eigen::VectorXd& predict(const Eigen::VectorXd& z, const Eigen::VectorXd& u);
+        void predict(Eigen::VectorXd& out, const Eigen::VectorXd& z, const Eigen::VectorXd& u);
         
         /**
          * Method to get dt value

@@ -1,23 +1,7 @@
 #include "kalman.hpp"
-#include <iostream>
+
 namespace utils
 {
-    void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
-    {
-        int m = z.size(), l = u.size(), n = P_0.rows();
-        std::cout << "\n\n\n--------------------------" << std::endl;
-        std::cout << "m = z.size() = " << m << std::endl;
-        std::cout << "l = u.size() = " << l << std::endl;
-        std::cout << "n = P.rows() = " << n << std::endl;
-        std::cout << "A(nxn) = " << n << "x" << n << std::endl; 
-        std::cout << "B(nxl) = " << n << "x" << l << std::endl; 
-        std::cout << "Q(nxn) = " << n << "x" << n << std::endl; 
-        std::cout << "R(mxm) = " << m << "x" << m << std::endl; 
-        std::cout << "K(nxm) = " << n << "x" << m << std::endl; 
-        std::cout << "x(n) = " << n << std::endl; 
-        std::cout << "--------------------------\n\n\n" << std::endl;
-    }
-
     void Kalman::setDt() 
     {
         auto now = std::chrono::steady_clock::now();
@@ -106,16 +90,16 @@ namespace utils
     }
 
 
-    const Eigen::VectorXd& Kalman::predict(const Eigen::VectorXd& z) 
+    void Kalman::predict(Eigen::VectorXd& out, const Eigen::VectorXd& z) 
     {
         std::lock_guard<std::mutex> guard(mtx_);
         preupdate();
         x_ = A_ * x_;
         updateStep(z);
-        return x_;
+        out = x_;
     } 
     
-    const Eigen::VectorXd& Kalman::predict(const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
+    void Kalman::predict(Eigen::VectorXd& out, const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
     {
         std::lock_guard<std::mutex> guard(mtx_);
         // we must know u for init of B
@@ -123,7 +107,7 @@ namespace utils
         preupdate();
         x_ = A_ * x_ + B_ * u;
         updateStep(z);
-        return x_;
+        out = x_;
     }
     
     double Kalman::getDt() 

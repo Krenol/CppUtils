@@ -39,12 +39,11 @@ void old(){
     // auto m = utils::Maths::mean(test);
     // auto d = utils::Maths::deviation(test);
     // std::cout << "mean: " << m << "\tdeviation: " << d << std::endl;
-    Eigen::VectorXd x(1);
+    Eigen::VectorXd x(1), y;
     x << 2;
-    auto y = kal.predict(x);
+    kal.predict(y, x);
     std::cout << "y=" << y << std::endl;
-    x << 4;
-    y = kal.predict(x);
+    kal.predict(y, x);
     std::cout << "y=" << y << std::endl;
 }
 
@@ -54,9 +53,11 @@ void test(){
 }
 
 int main() {
-    utils::StoppableThread th(SCHED_RR, 90);
-    std::function<void(void)> f = test;
-    th.run(f);
+    // utils::StoppableThread th(SCHED_RR, 90);
+    // std::function<void(void)> f = test;
+    // th.run(f);
+    Eigen::VectorXd z(3);
+    utils::PRINT_MATRIX_SIZES(Eigen::MatrixXd::Zero(6, 6), z);
     std::cin.get();
     return 0;
 }
