@@ -8,6 +8,20 @@
 #define UTILS_KALMAN_H
 
 namespace utils {
+
+    //https://stackoverflow.com/a/28876046
+    template <typename T>
+    struct is_chrono_duration
+    {
+        static constexpr bool value = false;
+    };
+
+    template <typename Rep, typename Period>
+    struct is_chrono_duration<std::chrono::duration<Rep, Period>>
+    {
+        static constexpr bool value = true;
+    };
+
     static void PRINT_MATRIX_SIZES(const Eigen::MatrixXd& P_0, const Eigen::VectorXd& z, const Eigen::VectorXd& u) {
         int m = z.size(), l = u.size(), n = P_0.rows();
         std::cout << "\n\n\n--------------------------" << std::endl;
@@ -37,7 +51,9 @@ namespace utils {
         std::cout << "x(n) = " << n << std::endl; 
         std::cout << "--------------------------\n\n\n" << std::endl;
     }
+    template <typename T = std::chrono::milliseconds>
     class Kalman {
+        static_assert(is_chrono_duration<T>::value, "T not derived from std::chrono::duration");
     private:
         Eigen::VectorXd x_;
         std::mutex mtx_;

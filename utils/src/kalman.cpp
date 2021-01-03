@@ -1,20 +1,22 @@
 #include "kalman.hpp"
 
 namespace utils
-{
-    void Kalman::setDt() 
+{    
+    template<typename T>
+    void Kalman<T>::setDt() 
     {
         auto now = std::chrono::steady_clock::now();
         if(first_call_){
             dt_ = 1;
             first_call_ = false;
         } else {
-            dt_ = std::chrono::duration_cast<std::chrono::microseconds>(now - last_call_).count();
+            dt_ = std::chrono::duration_cast<T>(now - last_call_).count();
         }
         last_call_ = now;
     }
 
-    void Kalman::init() 
+    template<typename T>
+    void Kalman<T>::init() 
     {
         
         //init empty A and Q
@@ -26,7 +28,8 @@ namespace utils
         I_.setIdentity();
     }
     
-    void Kalman::preupdate() 
+    template<typename T>
+    void Kalman<T>::preupdate() 
     {
         setDt();
         updateA();
@@ -36,7 +39,8 @@ namespace utils
         updateR();
     }
     
-    void Kalman::updateStep(const Eigen::VectorXd& z) 
+    template<typename T>
+    void Kalman<T>::updateStep(const Eigen::VectorXd& z) 
     {
         P_ = A_ * P_ * A_.transpose() + Q_;
         K_ = P_ * C_.transpose() * (C_ * P_ * C_.transpose() + R_).inverse();
@@ -44,42 +48,48 @@ namespace utils
         P_ = (I_ - K_ * C_) * P_;
     }
     
-    void Kalman::updateA() 
+    template<typename T>
+    void Kalman<T>::updateA() 
     {
         
     }
     
-    void Kalman::updateB() 
+    template<typename T>
+    void Kalman<T>::updateB() 
     {
         
     }
     
-    void Kalman::updateC() 
+    template<typename T>
+    void Kalman<T>::updateC() 
     {
         
     }
     
-    void Kalman::updateQ() 
+    template<typename T>
+    void Kalman<T>::updateQ() 
     {
 
     }
     
-    void Kalman::updateR() 
+    template<typename T>
+    void Kalman<T>::updateR() 
     {
         
     }
 
-    Kalman::Kalman(const Eigen::MatrixXd& C, 
+    template<typename T>
+    Kalman<T>::Kalman(const Eigen::MatrixXd& C, 
                     const Eigen::MatrixXd& P_0, 
                     const Eigen::MatrixXd& R,
                     const Eigen::VectorXd& x0) : 
                     C_{C}, P_{P_0}, R_{R}, x_{x0}
-    {
-        
+    {   
         init();
     }
     
-    Kalman::Kalman(
+    template<typename T>
+    Kalman<T>::Kalman(
                     const Eigen::MatrixXd& C, 
                     const Eigen::MatrixXd& P_0, 
                     const Eigen::MatrixXd& R) :
@@ -89,8 +99,8 @@ namespace utils
         x_ = Eigen::VectorXd::Zero(A_.rows());
     }
 
-
-    void Kalman::predict(Eigen::VectorXd& out, const Eigen::VectorXd& z) 
+    template<typename T>
+    void Kalman<T>::predict(Eigen::VectorXd& out, const Eigen::VectorXd& z) 
     {
         std::lock_guard<std::mutex> guard(mtx_);
         preupdate();
@@ -99,7 +109,8 @@ namespace utils
         out = x_;
     } 
     
-    void Kalman::predict(Eigen::VectorXd& out, const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
+    template<typename T>
+    void Kalman<T>::predict(Eigen::VectorXd& out, const Eigen::VectorXd& z, const Eigen::VectorXd& u) 
     {
         std::lock_guard<std::mutex> guard(mtx_);
         // we must know u for init of B
@@ -110,8 +121,16 @@ namespace utils
         out = x_;
     }
     
-    double Kalman::getDt() 
+    template<typename T>
+    double Kalman<T>::getDt() 
     {
         return dt_;
     }
+
+    template class Kalman<std::chrono::hours>;
+    template class Kalman<std::chrono::minutes>;
+    template class Kalman<std::chrono::seconds>;
+    template class Kalman<std::chrono::milliseconds>;
+    template class Kalman<std::chrono::microseconds>;
+    template class Kalman<std::chrono::nanoseconds>;
 }
