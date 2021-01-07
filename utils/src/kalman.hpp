@@ -59,7 +59,7 @@ namespace utils {
         std::mutex mtx_;
         std::chrono::steady_clock::time_point last_call_;
         Eigen::MatrixXd P_, K_, I_;
-        std::atomic<double> dt_{ 0 };
+        std::atomic<long> dt_{ 0 };
         std::atomic_bool first_call_ {true};
 
         /*
