@@ -42,8 +42,9 @@ namespace utils
     template<typename T>
     void Kalman<T>::updateStep(const Eigen::VectorXd& z) 
     {
+        auto CT = C_.transpose();
         P_ = A_ * P_ * A_.transpose() + Q_;
-        K_ = P_ * C_.transpose() * (C_ * P_ * C_.transpose() + R_).inverse();
+        K_ = P_ * CT * (C_ * P_ * CT + R_).inverse();
         x_ = x_ + K_ * (z - C_ * x_);
         P_ = (I_ - K_ * C_) * P_;
     }
@@ -76,6 +77,34 @@ namespace utils
     void Kalman<T>::updateR() 
     {
         
+    }
+    
+    Kalman::Kalman(const Eigen::MatrixXd& A,
+                const Eigen::MatrixXd& B,
+                const Eigen::MatrixXd& C,
+                const Eigen::MatrixXd& P_0,
+                const Eigen::MatrixXd& Q,
+                const Eigen::MatrixXd& R,
+                const Eigen::VectorXd& x0) : 
+                    C_{C}, P_{P_0}, R_{R}, x_{x0}, A_{A}, B_{B}, Q_{Q}
+    {
+        // init Eigenmatrix
+        I_= Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
+        I_.setIdentity();
+    }
+
+    Kalman::Kalman(const Eigen::MatrixXd& A,
+                const Eigen::MatrixXd& B,
+                const Eigen::MatrixXd& C,
+                const Eigen::MatrixXd& P_0,
+                const Eigen::MatrixXd& Q,
+                const Eigen::MatrixXd& R) : 
+                    C_{C}, P_{P_0}, R_{R}, x_{x0}, A_{A}, B_{B}, Q_{Q}
+    {
+        // init Eigenmatrix
+        I_= Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
+        I_.setIdentity();
+        x_ = Eigen::VectorXd::Zero(A_.rows());
     }
 
     template<typename T>

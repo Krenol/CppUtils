@@ -116,6 +116,45 @@ namespace utils {
     public:
         /**
          * Constructor
+         * @param A State transition model
+         * @param B Control input matrix
+         * @param C Output matrix
+         * @param P_0 Initial error covariance estiamtion
+         * @param Q Process noise covariance
+         * @param R Measurement noise covariance
+         * @param x0 Inital state guess
+         */
+        Kalman(
+            const Eigen::MatrixXd& A,
+            const Eigen::MatrixXd& B,
+            const Eigen::MatrixXd& C,
+            const Eigen::MatrixXd& P_0,
+            const Eigen::MatrixXd& Q,
+            const Eigen::MatrixXd& R,
+            const Eigen::VectorXd& x0
+        );
+
+        /**
+         * Constructor
+         * @param A State transition model
+         * @param B Control input matrix
+         * @param C Output matrix
+         * @param P_0 Initial error covariance estiamtion
+         * @param Q Process noise covariance
+         * @param R Measurement noise covariance
+         */
+        Kalman(
+            const Eigen::MatrixXd& A,
+            const Eigen::MatrixXd& B,
+            const Eigen::MatrixXd& C,
+            const Eigen::MatrixXd& P_0,
+            const Eigen::MatrixXd& Q,
+            const Eigen::MatrixXd& R
+        );
+
+
+        /**
+         * Constructor
          *
          * @param C Output matrix
          * @param P_0 Initial error covariance estiamtion
