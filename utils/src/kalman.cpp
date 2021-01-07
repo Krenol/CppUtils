@@ -79,7 +79,8 @@ namespace utils
         
     }
     
-    Kalman::Kalman(const Eigen::MatrixXd& A,
+    template<typename T>
+    Kalman<T>::Kalman(const Eigen::MatrixXd& A,
                 const Eigen::MatrixXd& B,
                 const Eigen::MatrixXd& C,
                 const Eigen::MatrixXd& P_0,
@@ -93,13 +94,14 @@ namespace utils
         I_.setIdentity();
     }
 
-    Kalman::Kalman(const Eigen::MatrixXd& A,
+    template<typename T>
+    Kalman<T>::Kalman(const Eigen::MatrixXd& A,
                 const Eigen::MatrixXd& B,
                 const Eigen::MatrixXd& C,
                 const Eigen::MatrixXd& P_0,
                 const Eigen::MatrixXd& Q,
                 const Eigen::MatrixXd& R) : 
-                    C_{C}, P_{P_0}, R_{R}, x_{x0}, A_{A}, B_{B}, Q_{Q}
+                    C_{C}, P_{P_0}, R_{R}, A_{A}, B_{B}, Q_{Q}
     {
         // init Eigenmatrix
         I_= Eigen::MatrixXd::Zero(P_.rows(), P_.cols());
